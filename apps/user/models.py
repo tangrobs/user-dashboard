@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models #pylint: disable = E0401
 from apps.login.models import User, UserManager
 
+
 class DescriptionManager(models.Manager):
     def validateDescription(self, postData):
         errors = {}
@@ -28,4 +29,3 @@ class Description(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User, related_name="description")
     objects = DescriptionManager()
-

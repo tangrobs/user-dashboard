@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models #pylint: disable = E0401
-from apps.user.models import Description, DescriptionManager
+
 import re
 import bcrypt #pylint: disable = E0401
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -35,7 +35,7 @@ class UserManager(models.Manager):
                 adminFlag = False
             phash = bcrypt.hashpw(postData['password'].encode(), bcrypt.gensalt())
             User.objects.create(first_name=postData['first_name'], last_name=postData['last_name'], email = postData['email'], pwhash = phash, admin = adminFlag)
-            Description.objects.createDescription(User.objects.last())
+
 
 
             return {"user":User.objects.last()}
@@ -48,10 +48,6 @@ class UserManager(models.Manager):
             return False
         else:
             return False
-
-
-            
-            
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
