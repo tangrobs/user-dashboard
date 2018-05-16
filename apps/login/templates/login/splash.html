@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <title>Dashr - Register</title>
+    <style>
+        .header{ position: fixed; top: 0; width: 100%; margin: 0; background-color:#80B0C0; text-align: center; padding: 1% 0; z-index: 10; }
+        .header h5{ font-size: 24px !important; }
+        .header a{ vertical-align: middle; }
+            .header a:link{ color: darkblue; }
+        .container{ margin-top: 6% !important; }
+            .container h4{ margin-bottom: 2%;  }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="row">
+            <div class="col-sm-2">
+                <h5>Dashr</h5>
+            </div>
+            <div class="col-sm-1">
+                <a href="/dashboard/">Dashboard</a>
+            </div>
+            <div class="col-sm-1">
+                <a href="/users/show/{{ request.session.userid }}/">Profile</a>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-2"><a href="/login/">Sign In</a></div> <!-- fix this route -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
+            <h2 style="margin-top: -3%; margin-bottom: 3%">Welcome to Dashr</h2>
+            <p>On Dashr, you can visit your friends' pages, send and receive messages, and leave comments to engage in deep and philosophical conversations... or just talk about cats and programming.  It's up to you!</p>
+            <a href="/register/"><button type="submit" class="btn btn-primary">Start</button></a>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>Manage users</h4>
+                <p>As a Dashr user, you can see all the other users' public information and leave them messages.  As an admin, you'll also be able to alter the users' attributes.</p>
+            </div>
+            <div class="col-sm-4">
+                <h4>Leave messages</h4>
+                <p>Any user can leave a message for any other user, and even comment on previously left messages.</p>
+            </div>
+            <div class="col-sm-4">
+                <h4>Edit user information</h4>
+                <p>Admins have the ability to edit other users' information, such as their name and email address.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

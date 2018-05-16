@@ -26,7 +26,7 @@
                 <a href="/dashboard/">Dashboard</a>
             </div>
             <div class="col-sm-1">
-                <a href="/users/show/{{ request.session.userid }}">Profile</a>
+                <a href="/users/show/{{ request.session.userid }}/">Profile</a>
             </div>
             <div class="col-sm-6"></div>
             <div class="col-sm-2"><a href="/login/">Sign In</a></div><!-- fix this route -->
@@ -34,7 +34,7 @@
     </div>
     <div class="container">
         <h4>Login</h4>
-        <form action="/login" method="POST">
+        <form action="/login/" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -46,6 +46,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button> 
         </form>
+        <a href="/register/">Don't have an account?  Sign up now!</a>
     </div>
 </body>
 </html>
