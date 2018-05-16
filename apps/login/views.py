@@ -28,6 +28,7 @@ def register(request):
         elif "user" in validation_return:
             request.session['user_id'] = validation_return['user'].id
             request.session['name'] = validation_return['user'].first_name
+            request.session['admin'] = validation_return['user'].admin
             messages.success(request,"Succesfully registered!")
             return redirect('/success')
         else:
@@ -42,6 +43,7 @@ def login(request):
         if validation_return:
             request.session['user_id'] = validation_return['user'].id
             request.session['name'] = validation_return['user'].first_name
+            request.session['admin'] = validation_return['user'].admin
             messages.success(request,"Succesfully Logged in!")
             return redirect('/success')
         else:
