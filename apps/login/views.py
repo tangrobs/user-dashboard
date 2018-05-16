@@ -52,6 +52,6 @@ def login(request):
             messages.error(request, "Invalid Login")
             return redirect('/')
     else:
-        return redirect('/')
-            
+        return render(request, "login/login.html")
+        
     

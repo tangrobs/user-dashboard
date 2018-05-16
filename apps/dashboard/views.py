@@ -5,5 +5,5 @@ from django.contrib import messages
 
 
 def dashboard(request):
-    context = { "user": User.objects.all()}
+    context = { "users": User.objects.all()}
     return render(request, "dashboard/dashboard.html", context)

@@ -24,7 +24,7 @@ class UserManager(models.Manager):
             errors['dupl_email'] = "Email already exists."
         if len(postData['password']) < 8:
             errors['pword_len'] = "Password must be at least 8 characters"
-        elif postData['password'] != postData['password_confirm']:
+        elif postData['password'] != postData['passconfirm']:
             errors['mm_pword'] = "Passwords do not match"
         if errors:
             return {"error_messages":errors}

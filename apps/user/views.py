@@ -6,7 +6,7 @@ from django.contrib import messages
 def show(request, id):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
-        return redirect('/signin')
+        return redirect('/login')
     else:
         user = User.objects.get(id = id)
         context = {
@@ -17,7 +17,7 @@ def show(request, id):
 def edit(request, id):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
-        return redirect('/signin')
+        return redirect('/login')
     elif User.objects.get(id = request.session['userid']).admin:
         context = {
             'user':User.objects.get(id = id)
@@ -48,7 +48,7 @@ def edit(request, id):
 def new(request):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
-        return redirect('/signin')
+        return redirect('/login')
     elif User.objects.get(id = request.session['userid']).admin:
         return render(request, "user/newuser.html")
     else:
@@ -58,7 +58,7 @@ def new(request):
 def processnew(request):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
-        return redirect('/signin')
+        return redirect('/login')
     elif not User.objects.get(id = request.session['userid']).admin:
         return redirect('/dashboard')
     elif request.method == 'POST':
@@ -79,7 +79,7 @@ def processnew(request):
 def processedit(request,id):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
-        return redirect('/signin')
+        return redirect('/login')
     elif User.objects.get(id = request.session['userid']).admin:
         if request.method == 'POST':
             validation_return = User.objects.registration_validator(request.POST)
@@ -110,10 +110,7 @@ def processedit(request,id):
                 return redirect('/')
         else:
             return redirect('/dashboard')
-
-
-
-        
+ 
 
 def checkloggedin(request):
     if 'userid' not in request.session:
