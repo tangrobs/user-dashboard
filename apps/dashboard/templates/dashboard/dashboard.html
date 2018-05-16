@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <title>Dashr - Login</title>
+    <style>
+        .header{ position: fixed; top: 0; width: 100%; margin: 0; background-color:#80B0C0; text-align: center; padding: 1% 0; z-index: 10; }
+        .header h5{ font-size: 24px !important; }
+        .header a{ vertical-align: middle; }
+            .header a:link{ color: darkblue; }
+        .container{ margin-top: 6% !important; }
+            .container h4{ margin-bottom: 2%;  }
+        table{ margin-top: 2%; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="row">
+            <div class="col-sm-2">
+                <h5>Dashr</h5>
+            </div>
+            <div class="col-sm-1">
+                <a href="/dashboard/">Dashboard</a>
+            </div>
+            <div class="col-sm-1">
+                <a href="/users/show/{{ request.session['userid'] }}">Profile</a>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-2"><a href="/">Log Out</a></div><!-- fix this route -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>
+                    {% if request.session.admin == True %}
+                    Manage Users
+                    {% else %}
+                    All Users
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-sm-6"></div>
+            {% if request.session.admin == True %}
+            <div class="col-sm-2"><a href="/"><button class="btn btn-primary">Add User</button></a></div> <!-- fix this route -->
+            {% endif %}
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Join Date</th>
+                        {% if request.session.admin == True %}
+                        <th scope="col">Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at }}</td>
+                        {%if request.session.admin == True %}
+                        <td>edit - remove</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

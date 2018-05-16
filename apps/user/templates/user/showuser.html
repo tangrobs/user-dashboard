@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <title>Dashr - Login</title>
+    <style>
+        .header{ position: fixed; top: 0; width: 100%; margin: 0; background-color:#80B0C0; text-align: center; padding: 1% 0; z-index: 10; }
+        .header h5{ font-size: 24px !important; }
+        .header a{ vertical-align: middle; }
+            .header a:link{ color: darkblue; }
+        .container{ margin-top: 6% !important; }
+            .container h4{ margin-bottom: 2%;  }
+        table{ margin-top: 2%; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="row">
+            <div class="col-sm-2">
+                <h5>Dashr</h5>
+            </div>
+            <div class="col-sm-1">
+                <a href="/dashboard/">Dashboard</a>
+            </div>
+            <div class="col-sm-1">
+                <a href="/users/show/{{ request.session['userid'] }}">Profile</a>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-2"><a href="/">Log Out</a></div><!-- fix this route -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>{{ first_name }} {{ last_name }} </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <p>Registered at:</p>
+                <p>User ID:</p>
+                <p>Email address:</p>
+                <p>Description:</p>
+            </div>
+            <div class="col-sm-6">
+                <p>{{ created_at }}</p>
+                <p>{{ id }}</p>
+                <p>{{ email }}</p>
+                <p>{{ user.description.content }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Leave a message for {{ first_name }}</h4>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="message"></textarea>
+            </div>
+        </div>
+
+
+
+    </div>
+</body>
+</html>
