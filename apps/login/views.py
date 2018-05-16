@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import *
+from apps.user.models import *
 from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    return render(request,"login/index.html")
+    return HttpResponse("Splash")
 
 def success(request):
     if not "name" in request.session:
         messages.error(request,"You must be logged in to access that page")
         return redirect('/')
     else:
-        return render(request,"login/success.html")
+        return redirect('/dashboard')
 
 def logout(request):
     request.session.clear()
@@ -30,12 +31,13 @@ def register(request):
             request.session['name'] = validation_return['user'].first_name
             request.session['admin'] = validation_return['user'].admin
             messages.success(request,"Succesfully registered!")
+            Description.objects.createDescription(validation_return['user'].id)
             return redirect('/success')
         else:
             print("something went wrong")
             return redirect('/')
     else:
-        return redirect('/')
+        return render(request,"login/register.html")
 
 def login(request):
     if request.method == 'POST':
