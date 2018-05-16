@@ -27,10 +27,10 @@
                 <a href="/dashboard/">Dashboard</a>
             </div>
             <div class="col-sm-1">
-                <a href="/users/show/{{ request.session.userid }}">Profile</a>
+                <a href="/users/show/{{ request.session.userid }}/">Profile</a>
             </div>
             <div class="col-sm-6"></div>
-            <div class="col-sm-2"><a href="/">Log Out</a></div><!-- fix this route -->
+            <div class="col-sm-2"><a href="/logout/">Log Out</a></div><!-- fix this route -->
         </div>
     </div>
     <div class="container">
@@ -57,6 +57,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Join Date</th>
+                        <th scope="col">User Level</th>
                         {% if request.session.admin == True %}
                         <th scope="col">Actions</th>
                         {% endif %}
@@ -69,6 +70,7 @@
                         <td>{{ user.first_name }} {{ user.last_name }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.created_at }}</td>
+                        <td>{{ user.admin }}</td>
                         {%if request.session.admin == True %}
                         <td>edit - remove</td>
                         {% endif %}

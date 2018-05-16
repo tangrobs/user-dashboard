@@ -29,10 +29,10 @@
                 <a href="/dashboard/">Dashboard</a>
             </div>
             <div class="col-sm-1">
-                <a href="/users/show/{{ request.session.userid }}">Profile</a>
+                <a href="/users/show/{{ request.session.userid }}/">Profile</a>
             </div>
             <div class="col-sm-6"></div>
-            <div class="col-sm-2"><a href="/">Log Out</a></div><!-- fix this route -->
+            <div class="col-sm-2"><a href="/logout/">Log Out</a></div><!-- fix this route -->
         </div>
     </div>
     <div class="container">
@@ -69,11 +69,22 @@
         </div>
         {% for msg in user.received_messages %}
             <div class="row">
+                <div class="col-sm-4">{{ msg.sender.first_name }} {{ msg.sender.last_name }}</div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4" style="text-align: right">{{ msg.created_at }}</div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12 post">
                     {{ msg.content }}
                 </div>
             </div>
             {% for com in user.received_messages.comments %}
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">{{ com.sender.first_name }} {{ com.sender.last_name }}</div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4" style="text-align: right">{{ com.created_at }}</div>
+                </div>
                 <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10 post">{{ com.content }}</div>
