@@ -35,6 +35,7 @@
     <div class="container">
         <h4>Register</h4>
         <form action="/register/" method="POST">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" class="form-control">

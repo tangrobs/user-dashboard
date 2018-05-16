@@ -35,6 +35,7 @@
     <div class="container">
         <h4>Login</h4>
         <form action="/login" method="POST">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" name="email" class="form-control">
