@@ -29,12 +29,12 @@
                 <a href="/users/show/{{ request.session.userid }}">Profile</a>
             </div>
             <div class="col-sm-6"></div>
-            <div class="col-sm-2"><a href="/">Sign In</a></div> <!-- fix this route -->
+            <div class="col-sm-2"><a href="/login/">Sign In</a></div> <!-- fix this route -->
         </div>
     </div>
     <div class="container">
         <h4>Register</h4>
-        <form>
+        <form action="/register/" method="POST">
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" class="form-control">
