@@ -48,6 +48,35 @@ class UserManager(models.Manager):
             return False
         else:
             return False
+    
+    def edit_validator(self, postData, id):
+        errors = {}
+        if len(postData['first_name']) < 2:
+            errors['f_name_len'] = "First name must be at least 2 characters"
+        elif not postData['first_name'].isalpha():
+            errors['f_name_alpha'] = "First name must be only letters"
+        if len(postData['last_name']) < 2:
+            errors['l_name_len'] = "Last name must be at least 2 characters"
+        elif not postData['last_name'].isalpha():
+            errors['l_name_alpha'] = "Last name must be only letters"
+        if len(postData['email']) < 1:
+            errors['l_email'] = "Email Cannot be blank!"
+        elif not EMAIL_REGEX.match(postData['email']):
+            errors['inv_email'] = "Invalid Email!"
+        elif User.objects.get(id = id).email == postData['email']:
+            pass
+        elif User.objects.filter(email = postData['email']):
+            errors['dupl_email'] = "Email already exists."
+        if errors:
+            return {"status":False,
+                "error_messages":errors}
+        else:
+            user = User.objects.get(id = id)
+            user.first_name = postData['first_name']
+            user.last_name = postData['last_name']
+            user.email = postData['email']
+            user.save()
+            return {"status":True}
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)

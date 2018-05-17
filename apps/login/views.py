@@ -5,7 +5,7 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Splash")
+    return render(request, "login/splash.html")
 
 def success(request):
     if not "name" in request.session:
@@ -25,9 +25,10 @@ def register(request):
         if "error_messages" in validation_return:
             for value in validation_return["error_messages"].values():
                 messages.error(request, value)
+            print("error_message")
             return redirect('/')
         elif "user" in validation_return:
-            request.session['user_id'] = validation_return['user'].id
+            request.session['userid'] = validation_return['user'].id
             request.session['name'] = validation_return['user'].first_name
             request.session['admin'] = validation_return['user'].admin
             messages.success(request,"Succesfully registered!")
@@ -43,7 +44,7 @@ def login(request):
     if request.method == 'POST':
         validation_return = User.objects.login_validator(request.POST)
         if validation_return:
-            request.session['user_id'] = validation_return['user'].id
+            request.session['userid'] = validation_return['user'].id
             request.session['name'] = validation_return['user'].first_name
             request.session['admin'] = validation_return['user'].admin
             messages.success(request,"Succesfully Logged in!")

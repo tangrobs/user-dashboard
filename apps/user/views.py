@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import *
 from apps.login.models import User, UserManager
+from apps.dashboard.models import *
 from django.contrib import messages
-
+import bcrypt
 def show(request, id):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
@@ -10,11 +11,14 @@ def show(request, id):
     else:
         user = User.objects.get(id = id)
         context = {
-            'user': user
+            'user': user,
+            'message': user.received_messages.all().order_by("-created_at")
         }
         return render(request, "user/showuser.html",context)
 
 def edit(request, id):
+    print("entering edit")
+    print(checkloggedin(request))
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
         return redirect('/login')
@@ -76,7 +80,7 @@ def processnew(request):
     else:
         return redirect('/dashboard/admin')
 
-def processedit(request,id):
+def processedit(request, id):
     if not checkloggedin(request):
         messages.error(request,"Please login to access this page")
         return redirect('/login')
@@ -110,6 +114,76 @@ def processedit(request,id):
                 return redirect('/')
         else:
             return redirect('/dashboard')
+
+def switchhandler(request, id, switch):
+    info = {}
+    me = User.objects.get(id = id)
+    if switch == 'a':
+        info['first_name'] = request.POST['first_name']
+        info['last_name'] = request.POST['last_name']
+        info['email'] = request.POST['email']
+        returnvalid = User.objects.edit_validator(info, id)
+        if returnvalid['status']:
+            return redirect('/users/show/{}'.format(id))
+        else:
+            for value in returnvalid['error_messages'].values():
+                messages.error(request, value)
+            return redirect('/users/edit/{}'.format(id))
+    if switch == 'b':
+        if len(request.POST['password']) < 8:
+            messages.error(request,"Password must be at least 8 characters")
+            return redirect('/users/edit/{}'.format(id))
+        elif request.POST['password'] != request.POST['passconfirm']:
+            messages.error(request,"Passwords do not match")
+            return redirect('/users/edit/{}'.format(id))
+        else:
+            phash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+            me.pwhash = phash
+            me.save()
+            return redirect('/users/show/{}'.format(id))
+    if switch == 'c':
+        print("entering switch statemente c")
+        print(request.POST['description'])
+        me.description.content = request.POST['description']
+        me.description.save()
+        print(me.description.content)
+        return redirect('/users/show/{}'.format(id))
+
+def addmessage(request):
+    print(request.method)
+    if request.method == "POST":
+        id = request.POST['id']
+        content = request.POST['content']
+        Message.objects.create(content = content, receiver = User.objects.get(id = id), \
+                            sender = User.objects.get(id = request.session['userid']))
+        return redirect('/users/show/{}/'.format(id))
+    else:
+        return HttpResponse("flagrant error")
+
+def addcomment(request):
+    print(request.method)
+    if request.method == "POST":
+        id = request.POST['id']
+        content = request.POST['content']
+        Comment.objects.create(content = content, message = Message.objects.get(id = request.POST['id']), \
+                                    sender = User.objects.get(id = request.session['userid']))
+        return redirect('/users/show/{}/'.format(request.POST['target_id']))
+    else:
+        return HttpResponse("flagrant error")
+
+def deleteuser(request, id):
+    if not checkloggedin(request):
+        messages.error(request,"Please login to access this page")
+        return redirect('/login/')
+    elif not User.objects.get(id = request.session['userid']).admin:
+        messages.error(request, "You cannot delete users")
+        return redirect('/dashboard/')
+    else:
+        User.objects.get(id = id).delete()
+        return redirect('/dashboard/')
+
+
+
  
 
 def checkloggedin(request):

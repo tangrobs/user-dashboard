@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h4>{{ first_name }} {{ last_name }} </h4>
+                <h4>{{ user.first_name }} {{ user.last_name }} </h4>
             </div>
         </div>
         <div class="row">
@@ -49,25 +49,26 @@
                 <p>Description:</p>
             </div>
             <div class="col-sm-6">
-                <p>{{ created_at }}</p>
-                <p>{{ id }}</p>
-                <p>{{ email }}</p>
+                <p>{{ user.created_at }}</p>
+                <p>{{ user.id }}</p>
+                <p>{{ user.email }}</p>
                 <p>{{ user.description.content }}</p>
             </div>
         </div>
         <div class="row">
-            <h4>Leave a message for {{ first_name }}</h4>
+            <h4>Leave a message for {{ user.first_name }}</h4>
         </div>
         <div class="row">
-            <form style="width: 100%">
+            <form style="width: 100%" action = '/users/addmessage/' method = "post">
                 {% csrf_token %}
+                <input type = "hidden" name = "id" value = "{{user.id}}">
                 <div class="col form-group">
                     <textarea class="form-control" rows="5" id="message" name="content"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary float-right">Submit</button> 
             </form>
         </div>
-        {% for msg in user.received_messages %}
+        {% for msg in user.received_messages.all reversed %}
             <div class="row">
                 <div class="col-sm-4">{{ msg.sender.first_name }} {{ msg.sender.last_name }}</div>
                 <div class="col-sm-4"></div>
@@ -78,7 +79,7 @@
                     {{ msg.content }}
                 </div>
             </div>
-            {% for com in user.received_messages.comments %}
+            {% for com in msg.comments.all reversed %}
                 <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-4">{{ com.sender.first_name }} {{ com.sender.last_name }}</div>
@@ -93,8 +94,10 @@
                 <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
-                        <form>
+                        <form action = '/users/addcomment/' method = "post">
                             {% csrf_token %}
+                            <input type = "hidden" name = "target_id" value = "{{user.id}}">
+                            <input type = "hidden" name = "id" value = "{{msg.id}}">
                             <textarea class="form-control post" rows="3" id="commentreply" name="content"></textarea>
                             <button type="submit" class="btn btn-primary float-right" style="margin-top: 10px">Submit</button>
                         </form>
